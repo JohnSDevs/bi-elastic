@@ -51,4 +51,40 @@ The output object states where the elasticsearch server is running. The output o
 
 ## Transformation.
 Because the nature of Elasticsearchs powerfull search engine it not allwasys neccessary to make transforms, the above example will insert all the columns inside of the SQL database into Elastic. 
-```"SELECT * FROM ElevatorService"
+```
+"SELECT * FROM ElevatorService"
+```
+Depending on your SQL database this may cause confict errors when importing multiple tables into the same index.
+So to not have to handle those problems right now, I made a cumto query that will extract data into a specific Elastic index instead:
+````
+"SELECT Elevator.Modeltype , Building.City, ElevatorService.ServiceStatus, ElevatorService.EmployeeId
+FROM Elevator 
+INNER JOIN Building ON Building.Id = Elevator.BuildingId 
+INNER JOIN ElevatorService ON ElevatorService.ElevatorId = Elevator.Id; "
+````
+Here I want to get information from different tables (JOIN) so I can analyse it with Kiabana.
+
+## ElasticSearch
+When the data is inserted in an "Index" it is basically a catalog with multiple JSON objects.
+Example of a JSON object, this is a single row on an SQL db from a Table, or transformed data like method 2 obove.
+````
+{
+  "_index": "service-metrics",
+  "_type": "doc",
+  "_id": "Q4uUhWUBoi6_otznYG6j",
+  "_score": 1,
+  "_source": {
+    "employeeid": "6CB8241C-F35A-43F0-84AA-ECABE5D03931",
+    "city": "Stockholm",
+    "@timestamp": "2018-08-29T12:06:58.313Z",
+    "servicestatus": "Avslutad",
+    "modeltype": "Personalhiss",
+    "@version": "1"
+  },
+  "fields": {
+    "@timestamp": [
+      "2018-08-29T12:06:58.313Z"
+    ]
+  }
+}
+````
