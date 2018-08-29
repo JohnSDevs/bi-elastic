@@ -49,7 +49,7 @@ The above config, when executed with logstash, will access the ElevatorExam data
 The output object states where the elasticsearch server is running. The output of the SQL Query will be automatically transformed into JSON and finally inserted into an elasticsearch "index" called "elevatorservice"
 ** NOTE The index in Elastic has to be created forehand
 
-## Transformation.
+## * 3 Transformation. (SSIS)
 Because the nature of Elasticsearchs powerful search engine it not always necessary to make transforms, the above example will insert all the columns inside of the SQL database into Elastic. 
 ```
 "SELECT * FROM ElevatorService"
@@ -64,7 +64,7 @@ INNER JOIN ElevatorService ON ElevatorService.ElevatorId = Elevator.Id; "
 ````
 Here I want to get information from different tables (JOIN) so I can analyze it with Kiabana.
 
-## ElasticSearch
+## * 4 ElasticSearch
 When the data is inserted in an "Index" it is basically a catalog with multiple JSON objects.
 Example of a JSON object, this is a single row on an SQL db from a Table, or transformed data like method 2 above.
 ````
@@ -97,6 +97,6 @@ Here posting JSON objects from a file into an index called "Elevators"
 
 Another way to search, view and analyze the data is to use a visualization tool like Kibana or Grafana for example.
 
-## Kibana
+## * 5 Visualzation with Kibana
 I created different views so I could visualize specific metrics. 
 ![alt text](https://raw.githubusercontent.com/JOhnSDevs/bi-elastic/master/Kibana_dashboard.png)
