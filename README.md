@@ -57,7 +57,7 @@ Because the nature of Elasticsearchs powerful search engine it not always necess
 Depending on your SQL database this may cause conflict errors when importing multiple tables into the same index.
 So to not have to handle those problems right now, I made a custom query that will extract data into a specific Elastic index instead:
 ````
-"SELECT Elevator.Modeltype , Building.City, ElevatorService.ServiceStatus, ElevatorService.EmployeeId
+"SELECT Elevator.Modeltype , Building.City, ElevatorService.ServiceStatus, Building.BuildningOwner,  ElevatorService.EmployeeId
 FROM Elevator 
 INNER JOIN Building ON Building.Id = Elevator.BuildingId 
 INNER JOIN ElevatorService ON ElevatorService.ElevatorId = Elevator.Id; "
