@@ -11,7 +11,7 @@ The task is to export data from an existing MSSQL database containing various ta
   Search Engine
 
 * LogStash
-Open source, server-side data processing pipeline. We can use it to ingest data from multiple sources, transform it and send to Elastic.
+Open source, server-side data processing pipeline. We can use it to ingest data from multiple sources, transform it and send to a consumer, in this case Elastic.
 
 * JDBC SQL Driver
   Used to access the SQL Db and make querys
@@ -88,3 +88,15 @@ Example of a JSON object, this is a single row on an SQL db from a Table, or tra
   }
 }
 ````
+Elasticsearch is accessible through a REST interface accepting GET, POST, DELETE, PUT commands to insert/modify/view data.
+In order to make querys one can user curl and make a request from the command line:
+```
+curl -o nul -H 'Content-Type: application/x-ndjson' -XPOST localhost:9200/elevators/doc/_bulk --data-binary Elevators.json
+```
+Here posting JSON objects from a file into an index called "Elevators"
+
+Another way to search, view and analyze the data is to use a visluasiation tool like Kibana or Grafana for example.
+
+## Kabana
+I created defferent views so I could visualize specific metrics. 
+
