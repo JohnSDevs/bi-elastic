@@ -99,4 +99,5 @@ Another way to search, view and analyze the data is to use a visluasiation tool 
 
 ## Kabana
 I created defferent views so I could visualize specific metrics. 
+[[https://github.com/JohnSDevs/bi-elastic/blob/master/Kibana_dashboard.png|alt=octocat]]
 
