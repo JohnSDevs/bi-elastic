@@ -5,7 +5,7 @@ The task is to export data from an existing MSSQL database containing various ta
 
 ### Tools used:
 * MSSQL Server 2017
-  Self explainatory
+  Self explanatory
   
 * Elasticsearch
   Search Engine
@@ -14,10 +14,10 @@ The task is to export data from an existing MSSQL database containing various ta
 Open source, server-side data processing pipeline. We can use it to ingest data from multiple sources, transform it and send to a consumer, in this case Elastic.
 
 * JDBC SQL Driver
-  Used to access the SQL Db and make querys
+  Used to access the SQL Db and make query's
   
 * Kibana
-  Visualisation tool
+  Visualization tool
 
 
 ## Workflow:
@@ -45,28 +45,28 @@ output {
 ```
 logstash -f sql.config
 ```
-The above config, when executed with logstash, will acces the ElevatorExam database on localhost and execute an SQL query.
-The output object states where the elasticsearch server is running. The output of the SQL Query will be automaticly transformed into JSON and finally inserted into an elasticsearch "index" called "elevatorservice"
+The above config, when executed with logstash, will access the ElevatorExam database on localhost and execute an SQL query.
+The output object states where the elasticsearch server is running. The output of the SQL Query will be automatically transformed into JSON and finally inserted into an elasticsearch "index" called "elevatorservice"
 ** NOTE The index in Elastic has to be created forehand
 
 ## Transformation.
-Because the nature of Elasticsearchs powerfull search engine it not allwasys neccessary to make transforms, the above example will insert all the columns inside of the SQL database into Elastic. 
+Because the nature of Elasticsearchs powerful search engine it not always necessary to make transforms, the above example will insert all the columns inside of the SQL database into Elastic. 
 ```
 "SELECT * FROM ElevatorService"
 ```
-Depending on your SQL database this may cause confict errors when importing multiple tables into the same index.
-So to not have to handle those problems right now, I made a cumto query that will extract data into a specific Elastic index instead:
+Depending on your SQL database this may cause conflict errors when importing multiple tables into the same index.
+So to not have to handle those problems right now, I made a custom query that will extract data into a specific Elastic index instead:
 ````
 "SELECT Elevator.Modeltype , Building.City, ElevatorService.ServiceStatus, ElevatorService.EmployeeId
 FROM Elevator 
 INNER JOIN Building ON Building.Id = Elevator.BuildingId 
 INNER JOIN ElevatorService ON ElevatorService.ElevatorId = Elevator.Id; "
 ````
-Here I want to get information from different tables (JOIN) so I can analyse it with Kiabana.
+Here I want to get information from different tables (JOIN) so I can analyze it with Kiabana.
 
 ## ElasticSearch
 When the data is inserted in an "Index" it is basically a catalog with multiple JSON objects.
-Example of a JSON object, this is a single row on an SQL db from a Table, or transformed data like method 2 obove.
+Example of a JSON object, this is a single row on an SQL db from a Table, or transformed data like method 2 above.
 ````
 {
   "_index": "service-metrics",
@@ -89,14 +89,14 @@ Example of a JSON object, this is a single row on an SQL db from a Table, or tra
 }
 ````
 Elasticsearch is accessible through a REST interface accepting GET, POST, DELETE, PUT commands to insert/modify/view data.
-In order to make querys one can user curl and make a request from the command line:
+In order to make query's one can user curl and make a request from the command line:
 ```
 curl -o nul -H 'Content-Type: application/x-ndjson' -XPOST localhost:9200/elevators/doc/_bulk --data-binary Elevators.json
 ```
 Here posting JSON objects from a file into an index called "Elevators"
 
-Another way to search, view and analyze the data is to use a visluasiation tool like Kibana or Grafana for example.
+Another way to search, view and analyze the data is to use a visualization tool like Kibana or Grafana for example.
 
-## Kabana
-I created defferent views so I could visualize specific metrics. 
+## Kibana
+I created different views so I could visualize specific metrics. 
 ![alt text](https://raw.githubusercontent.com/JOhnSDevs/bi-elastic/master/Kibana_dashboard.png)
