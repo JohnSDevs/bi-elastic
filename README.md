@@ -20,6 +20,27 @@ Open source, server-side data processing pipeline. We can use it to ingest data 
   Visualisation tool
 
 
-## Overview of workflow:
+## Workflow:
 
-Prepare SQL Query in config file => Execute LogStash 
+### * 1 Prepare SQL Query in config file.
+```
+input {
+  jdbc {
+    jdbc_connection_string => "jdbc:sqlserver://localhost;databaseName=ElevatorExam;user=elastic;password=yeahright"
+    jdbc_driver_class => "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+    jdbc_user => ""
+
+    statement => "SELECT * FROM ElevatorService"
+  }
+}
+
+output {
+  elasticsearch {
+    hosts => ["localhost:9200"]
+    index => "elevatorservice"
+  }
+}
+```
+The above config, when executed with logstash, will acces the ElevatorExam database on localhost and execute an SQL query.
+The output object states where the elasticsearch server is running. The output of the SQL Query will be automaticly transformed into JSON and finally inserted into an elasticsearch "index" called "elevatorservice"
+** NOTE The index in Elastic has to be created forehand
