@@ -41,6 +41,14 @@ output {
   }
 }
 ```
+### * 2 Execute LogStash
+```
+logstash -f sql.config
+```
 The above config, when executed with logstash, will acces the ElevatorExam database on localhost and execute an SQL query.
 The output object states where the elasticsearch server is running. The output of the SQL Query will be automaticly transformed into JSON and finally inserted into an elasticsearch "index" called "elevatorservice"
 ** NOTE The index in Elastic has to be created forehand
+
+## Transformation.
+Because the nature of Elasticsearchs powerfull search engine it not allwasys neccessary to make transforms, the above example will insert all the columns inside of the SQL database into Elastic. 
+```"SELECT * FROM ElevatorService"
